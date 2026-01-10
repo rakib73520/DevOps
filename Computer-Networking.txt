@@ -1,0 +1,23 @@
+- Computer : Common Operating Machine Purposely Used for Technological and Educational Research
+- data produce information
+- Internet : Collection of computer networks
+- bunch of computer connected together which create internet
+- protocols like TCP/IP : algorithm or step by step way  to communicate between two or more computer. this is the foundation of internet.
+- TCP/IP : Transmission Control Protocol is a steps and rules -> algorithm to transfer data.
+- Protocol is bsically algorithm which is steps, rules. 
+- Internet has devices. (address : IP, home : Devices, postman : HTTP, letter : Data, Router : Cables, Wireless).
+- LAN : home/office use printer which create a lan network which is responsible for multiple computer to use that printer.
+- WAN : home -> city -> division -> country -> world.
+- Client - Server Model : communicating between client and server. I as a client hit amazon.com, server of amazon gives the response.
+- IP Address & DNS : when we hit google.com it looks for ip address for that google.com from dns. and basically we enter google using ip address.
+- Packets : send a big chunk of data by breaking into many packets.
+- Rounter : decides where these packets will go.
+- Wifi : wifi is home router.
+- Security : Firewalls. basically prevent hackers.
+- TCP -> ensure reliable data transmission and IP -> handles address and routing of data.
+- UDP : User datagram protocol make sure speed over consistancy and accuracy.
+- HTTP : Hyper Text transfer Protocol is a language of web. use to communicate between web service.
+- FTP : File Transfer Protocol used to trnasfer files between two computers.
+- SMTP : Simple Mail Transfer Protocol used to transfer mail.
+- When we talk about internet speed -> bit, and for size -> byte.
+- home -> many appartment -> many area -> many city -> many country. so there are many possible address.
