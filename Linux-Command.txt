@@ -1,0 +1,87 @@
+#Directory and files play
+
+- mv log log.txt (change log files extention, from log -> log.txt)
+- rm -rf folder (recursively remove folder)
+- rm log.txt (remove folder)
+- rm -rf fold* (delete all folder starting with fold, example fold1, foldRakib)
+- mkdir folder{1..20} (create 20 folder)
+- mkdir -p folder{001..120} && touch folder{001..120}/README.md (create 120 folder and create readme inside each folder)
+
+
+#Linux Users play
+
+- sudo su (to enter super user)
+- exit (to exit from this user)
+- sudo useradd -m rakib (create user)
+- sudo passwd rakib (set the password)
+- su rakib (switch user)
+- cat /etc/passwd (show all users)
+- cat /etc/group (to show all the group under this user)
+- id rakib (show uid, gid, groupid for this user has been accessed)
+- sudo userdel -r rakib
+- whoami (to see which user am i currently)
+
+
+#Linux Groups and Permission play
+
+
+- sudo apt install docker.io -y (-y means give all yes)
+- sudo usermod -aG docker rakib (add the rakib user to the docker group, here -a means append, and -G means group)
+- docker ps (to show the process status of this group)
+- sudo groupdel docker (delete a group)
+- sudo apt purge docker.io (delete the docker)
+- sudo apt list installed | grep docker (find the installed software called docker) 
+- sudo groupadd devops (create a group)
+- sudo gpasswd -M suresh,rakib devops (add these user in the devops group)
+- sudo chgrp devops index.html (make the devops group accessible to the index.html files)
+- chmod 214 index.html (user access controll)
+- scp -i pem_key filename @computername:/home/ubuntu
+
+
+# Services and monitoring play
+
+
+- systemctl list-units (list of all servies like docker)
+- systemctl status ssh (shows the status of the ssh)
+- systemctl disable docker (disables the docker)
+- systemctl stop docker (stops the docker)
+- sudo journalctl -fu docker.service (show all the log of docker)
+- grep -i 'error' app.log (brings all the information which contains error form the app.log file and -i stands for case insensitive)
+- awk '{print $4, $7}' app.log (show or print only 4th and 7th column from app.log)
+- awk '/ERROR/ {print $4, $7}' app.log (show or print all the row which contain ERROR and 4th and 7th column)
+- find /home/ecb/Practice-Rakib/log-analyzer/ -name "*.log" (find all the files or lines which contains .log at the end, here * mean before .log there can be any possible text)
+- find . -mtime 0 (find all the log for the last 24 hour, here -mtime is minimum time 0 day, instead of 0, we can put +1 which means more than 1 day)
+- sed 's/Rakib/JohnSnow/' rakib.txt (replace all Rakib word with JohnSnow from rakib.txt and only print in the console)
+- sed 's/Rakib/JohnSnow/' rakib.txt > johnsnow.txt (copy all the text from rakib.txt, and replace all the word Rakib with JohnSnow and finally create a new file called johnsnow.txt and put those content in it)
+
+
+#Shell Scripting Theory 
+
+
+- sh (bone shell)
+- bash (bone again shell)
+- zsh (z shell)
+- git bash is linux emulator.
+- for script file at the top there will be : #!/bin/bash (# -> she, ! -> bang)
+
+
+#Shell Scripting Play
+
+
+- bash app.sh (run this script. and script type is always .sh)
+- chmod 700 app.sh (another way is to make that file executable)
+- ./app.sh (now run the script without bash command)
+
+
+
+#Inside Shell Script Play
+
+
+- name="rakib" (declare a variable called name)
+- echo "Enter your email : " (print this text)
+- read email (take input from the user and store it inside the email variable)
+- echo '$email' (print the email)
+
+
+
+

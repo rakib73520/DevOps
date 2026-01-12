@@ -1,0 +1,5 @@
+# Github Connection Play
+
+
+- ssh-keygen (generate a public and private key to communicate with your local git with your remote or online git called github, now open the generated public key, copy it. then go to the github -> settings -> SSH and GPG keys -> new ssh key, then give title and paste your public key)
+
