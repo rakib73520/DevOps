@@ -21,3 +21,27 @@
 - SMTP : Simple Mail Transfer Protocol used to transfer mail.
 - When we talk about internet speed -> bit, and for size -> byte.
 - home -> many appartment -> many area -> many city -> many country. so there are many possible address.
+- Port : Well-Known Ports(0 - 1023) like smtp, http. Registered Ports (1024 - 49151) like mysql, mongoDB. Dynamic or Private Ports (49152 - 65535) like firefox, chorome, they are temporary.
+- Network Topologies : Its a arrangement of computer networks.
+- Bus Topologies : All devices are connected to a single cable, less complex and less expensive but single point of failure.
+- Star Topologies : One Center Hub all devices are connected to it like star. Example LAN. Easy to install new device and remove. but single point of failure.
+- Ring Topologies : devices are connected like a ring. enclosed in a circular way. bandwith high and low fault tolerence but adding or removing devices will be difficult. 
+- Mesh Topologies : All devices are connected to each other. Example Military Telecommunication. Highly Reliable and hight fault tolerence its expencive and difficult to manage.
+- Tree Topologies : Devices are assembled like a tree. It maintains a client server network. Easy to expand. Like a branch mirpur are need a new user connection.
+- OSI Model : How one device communicate with another device using OSI Model. 
+- MAC Address : When device build, the manufractural sealed a unique mac address to it. 
+- In OSI Model there are 7 layers. 1. Physical Layer, 2. Data Layer, 3. Network Layer, 4. Transport Layer. 5. Session Layer, 6. Presentation Layer, 7. Application Layer. (Please Do Not Throw Sausags Pizas Away).
+- Scenario : Linus sends "hi" from this phone, tovey receives it on her phone. 
+- Application: WhatsApp app — user composes message (PDU: Data).
+- Presentation: Encodes/compresses/encrypts message (e.g., Signal protocol) (PDU: Data).
+- Session: Manages session/connection context between endpoints (PDU: Data).
+- Transport: Adds TCP/UDP header (ports, seq/ACK) — makes transfer reliable if TCP (PDU: Segment/Datagram).
+- Network: Adds IP header (source/destination IP) for routing (PDU: Packet).
+- Data Link: Adds MAC header & trailer (Ethernet frame: src/dst MAC, FCS) for local delivery (PDU: Frame).
+- Physical: Sends raw bits over cable/wireless (PDU: Bits).
+- Encryption : Symmetric (both end use same key) and asymmetric (both end use different key. example : public and private).
+- In internet there are many servers, and from the server we add routers. and these routers are connected with multiple router. each router is connected with a socket. from socket we give internet to the people. 
+- From Cloud we create EC2. To manage this we need VPC (Virtual Private Cloud) which is basically the network.
+- We can create our own VPC. public and private both.
+- Internet Gateway : we communicate with aws with it. internet gateway communicate to vpc and route cable is been used to do that. since there are many people trying to communicate with aws the routing cable basically manage the traffic to get the user access the public vpc. example accessing the frontend stored in public vpc. or private vpc if the user is authenticated.
+- Suppose we have two VPC one is public and one is private, lets say we store the frontend in the public VPC and since the database is sensitive we will store the database in the Private VPC. now when from the frontend side it request for data from public vpc to private vpc we neet to communicate between then, that basically done by NAT Gateway.

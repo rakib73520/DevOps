@@ -1,0 +1,20 @@
+- Servers : 1. On-Prem (physical server in server room), 2. Hybrid is a mix of on-prem and cloud 3. Cloud, Example gcp, aws.
+- Cloud : two types of services public and private. cloud comes from data centers.
+- On-Prem : Provides services for ERP, CRM. Example : Oracle, Edge provides these services in physical server. 
+- Regions : Min 3 distic availability zone will be requre to create a region. 
+- Cloud Front Pops : Points of presence, CDN (content delivery network)
+- Aws Computer is called EC2 (Elastic Computing Cloud)
+- IAAS : Infrastructure as a service, a ec2 is iaas because it provides a whole infrastructre.
+- PAAS : Platform As a Service, example : google app engine. provides a development environment. AWS Lamda is PaaS.
+- SAAS : Software As a Service, example : bkash, gmail. provides services.
+- There are 3 ways we can access the aws. Console, cli, sdk.
+- Root User creates IAM-User (Indentity Access Management).
+- Iaam : Users, groups
+- Polices : Json key value pairs like services : ec2, access : true.
+- Role : Identity + policies + truested all defines in Roles. give a person this role temporary.
+- EC2 : Elastic Cloud Computer. its a virtual machine. to create a instance of ec2 or vm, we need a amazon machine image (blue print to create a virtual computer)
+- To create key pairs, aws takes public key to itself and give the private key. using that private key we can connect that cloud computer via ssh.
+- Firewall : Inbound (incomming traffic) and outbound (out going traffic).
+- S3 : Simple storage service is a bucket folder for storage external storage like hdd. 2 types of s3, standard (quick and faster), glacier (long and slow)
+- EBS : For internal Storage.
+- AWS Lambda : Serverless compute service, used to run any code without installing any dependecies.
