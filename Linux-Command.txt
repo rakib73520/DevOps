@@ -36,6 +36,7 @@
 - sudo chgrp devops index.html (make the devops group accessible to the index.html files)
 - chmod 214 index.html (user access controll)
 - scp -i pem_key filename @computername:/home/ubuntu
+- getent group devops (list all the user in devops group)
 
 
 # Services and monitoring play
