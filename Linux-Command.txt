@@ -6,6 +6,7 @@
 - rm -rf fold* (delete all folder starting with fold, example fold1, foldRakib)
 - mkdir folder{1..20} (create 20 folder)
 - mkdir -p folder{001..120} && touch folder{001..120}/README.md (create 120 folder and create readme inside each folder)
+- ls -l (to show the permission for all files)
 
 
 #Linux Users play
