@@ -30,7 +30,7 @@ Local Code → GitHub Push → GitHub Actions (CI/CD) → S3 Bucket → EC2 serv
 
 ### 1.2 — Create an S3 Bucket
 
-> 📄 Follow `s3.md` for full steps.
+> 📄 Follow `s3-bucket.md` for full steps.
 
 ---
 
@@ -162,7 +162,7 @@ EC2 serves the app from S3 (or pulls from S3 as needed)
 | File | What It Covers |
 |------|---------------|
 | `ec2.md` | Creating and connecting to EC2 |
-| `s3.md` | Creating S3 bucket and policies |
+| `s3-bucket.md` | Creating S3 bucket and policies |
 | `iam.md` | Creating users, roles, access keys |
 | `aws-cli.md` | Installing CLI and `aws configure` |
 | `vpc.md` | Network setup for EC2 |
