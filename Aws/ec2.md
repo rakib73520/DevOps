@@ -1,184 +1,221 @@
-🚀 AWS EC2 Setup Guide (Step-by-Step)
-📍 Region
+# 🚀 AWS EC2 Instance Setup Guide (Ubuntu -- t3.micro)
 
-Make sure your region is selected correctly (example used here):
+This document provides a complete step-by-step guide to launching and
+connecting to an AWS EC2 instance.
 
-eu-north-1
+------------------------------------------------------------------------
 
-Always confirm the region from the top-right corner of the AWS Console.
+## 🌍 1. Select Region
 
-1️⃣ Launch an EC2 Instance
-Step 1: Open EC2 Dashboards
+Before creating your instance, make sure the correct region is selected
+from the top-right corner of the AWS Console.
 
-Go to AWS Console
+Example used in this guide:
 
-Search EC2
+    eu-north-1
 
-Click Launch Instance
+------------------------------------------------------------------------
 
-Step 2: Name Your Instance
+# 🖥 2. Launch EC2 Instance
 
-Give a meaningful name, for example:
+## Step 1: Open EC2 Dashboard
 
-devops-ubuntu-server
-Step 3: Choose Amazon Machine Image (AMI)
+-   Login to AWS Console
+-   Search for **EC2**
+-   Click **Launch Instance**
 
-An Amazon Machine Image (AMI) is a blueprint/template used to create your server.
+------------------------------------------------------------------------
+
+## Step 2: Name the Instance
+
+Give a meaningful name:
+
+    devops-ubuntu-server
+
+------------------------------------------------------------------------
+
+## Step 3: Choose Amazon Machine Image (AMI)
+
+An **AMI (Amazon Machine Image)** is a template used to create your
+server.
 
 Select:
 
-Ubuntu Server (Latest LTS)
+    Ubuntu Server (Latest LTS)
 
-If you already have a custom AMI, you can select it.
+------------------------------------------------------------------------
 
-Step 4: Choose Instance Type
+## Step 4: Choose Instance Type
 
 Select:
 
-t3.micro
+    t3.micro
 
-1 vCPU
+Specifications: - 1 vCPU - 1 GB RAM - Free-tier eligible (in most cases)
 
-1 GB RAM
+------------------------------------------------------------------------
 
-Eligible for Free Tier (in many cases)
+## Step 5: Configure Key Pair
 
-Step 5: Key Pair (Very Important)
+If a key pair already exists: - Select the existing key pair
 
-If you already have a key pair:
+Otherwise: - Click **Create new key pair** - Name: `devops-key` - Type:
+`RSA` - Format: `.pem` - Download and store securely
 
-Select existing key pair
+⚠️ The key file cannot be downloaded again.
 
-Otherwise:
+------------------------------------------------------------------------
 
-Click Create new key pair
+## 🌐 6. Configure Network Settings
 
-Name: devops-key
+### VPC
 
-Type: RSA
+-   Select an existing VPC\
+    OR\
+-   Use the default VPC (recommended for beginners)
 
-Format: .pem
+------------------------------------------------------------------------
 
-Download the key file
+### Security Group (Firewall Rules)
 
-Save it securely on your local machine
+You can select an existing security group or create a new one.
 
-⚠️ You cannot download this key again later.
+If creating a new one, add inbound rules:
 
-Step 6: Network Settings (VPC & Security Group)
-VPC
+  Type    Port   Purpose
+  ------- ------ --------------------
+  SSH     22     Remote access
+  HTTP    80     Web traffic
+  HTTPS   443    Secure web traffic
 
-If you already have a VPC:
+For learning purposes:
 
-Select existing VPC
+    Source: 0.0.0.0/0
 
-Otherwise:
+⚠️ In production, restrict SSH access to your IP only.
 
-Use default VPC (recommended for beginners)
+------------------------------------------------------------------------
 
-Security Group (Firewall Rules)
+## 💾 7. Configure Storage
 
-You can:
+Storage is managed by **EBS (Elastic Block Store)**.
 
-Select existing security group
-OR
-
-Create a new one
-
-If creating new:
-
-Add Inbound Rules
-
-Inbound rules define who can access your server.
-
-Typical rules:
-
-Type	Port	Purpose
-SSH	22	Connect from local machine
-HTTP	80	Allow web traffic
-HTTPS	443	Secure web traffic
-
-For learning purposes, you may allow:
-
-Source: Anywhere (0.0.0.0/0)
-
-⚠️ In production, never open SSH to the whole world.
-
-Step 7: Configure Storage
-
-Here you configure EBS (Elastic Block Storage).
-
-Important clarification:
-
-RAM is defined by instance type (t3.micro → 1GB RAM)
-
-Storage is EBS volume (hard disk of your server)
+Important clarification: - RAM is defined by instance type. - Storage is
+handled separately via EBS.
 
 Default:
 
-8 GB gp3 (General Purpose SSD)
+    8 GB gp3 (SSD)
 
-You can increase storage if needed.
+After launching: - Go to EC2 → Volumes - You will see the attached EBS
+volume
 
-After launching:
+------------------------------------------------------------------------
 
-Go to EC2 → Volumes
-
-You will see the attached EBS volume
-
-Step 8: Number of Instances
+## 🔢 8. Number of Instances
 
 Set:
 
-1 instance
+    1
 
-(You can launch multiple if needed)
+------------------------------------------------------------------------
 
-Step 9: Launch Instance
+## 🚀 9. Launch Instance
 
 Click:
 
-Launch Instance
+    Launch Instance
 
 Wait until:
 
-Instance State = Running
-2️⃣ Connect to EC2 from Local Machine
-Step 1: Go to EC2 → Instances
+    Instance State = Running
 
-Select your instance
+------------------------------------------------------------------------
 
-Click Connect
+# 🔐 10. Connect to EC2 from Local Machine
 
-Step 2: Give Permission to Key File (Important)
+## Step 1: Go to EC2 → Instances
 
-Go to the folder where your .pem file is downloaded.
+-   Select your instance
+-   Click **Connect**
+-   Choose **SSH client**
+
+------------------------------------------------------------------------
+
+## Step 2: Set Permission for Key File
+
+Navigate to the folder where the `.pem` file is downloaded.
 
 Run:
 
+``` bash
 chmod 400 devops-key.pem
+```
 
-This gives read-only permission to the key.
+------------------------------------------------------------------------
 
-Step 3: Connect Using SSH
+## Step 3: Connect via SSH
 
-Copy the command provided by AWS.
+Example command:
 
-Example:
-
+``` bash
 ssh -i devops-key.pem ubuntu@your-public-ip
+```
 
 For Ubuntu:
 
-username = ubuntu
+    Username: ubuntu
 
 For Amazon Linux:
 
-username = ec2-user
-✅ Verify Connection
+    Username: ec2-user
 
-After successful connection, you should see something like:
+------------------------------------------------------------------------
 
+# ✅ Verify Connection
+
+If successful, you will see:
+
+``` bash
 ubuntu@ip-xxx-xxx-xxx-xxx:~$
+```
 
-Now your EC2 server is successfully connected 🎉
+Your EC2 instance is now connected successfully.
+
+------------------------------------------------------------------------
+
+# ❗ Common Mistakes
+
+-   Wrong region selected
+-   Port 22 (SSH) not open
+-   Wrong username
+-   Forgot to run `chmod 400`
+-   Using incorrect key pair
+-   Instance not in "Running" state
+
+------------------------------------------------------------------------
+
+# 📌 Summary
+
+In this setup, we:
+
+-   Selected region (`eu-north-1`)
+-   Chose Ubuntu AMI
+-   Selected instance type (`t3.micro`)
+-   Created/selected key pair
+-   Configured security group
+-   Configured EBS storage
+-   Launched instance
+-   Connected using SSH
+
+------------------------------------------------------------------------
+
+You can extend this documentation later by adding:
+
+-   Nginx installation
+-   Node.js deployment
+-   Docker setup
+-   IAM role attachment
+-   Elastic IP configuration
+
+Keep building step by step 🚀
