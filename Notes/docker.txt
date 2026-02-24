@@ -1,0 +1,58 @@
+- Before the 2000s, companies used physical on-premise servers. These were often underutilized (only one application ran per server), not scalable, and had dependency conflicts — for example, different app versions could not coexist easily.
+
+- After the 2000s, Virtual Machines (VMs) were invented. Imagine having a computer inside another computer. A physical computer has hardware and an operating system (OS), but to run multiple machines on the same hardware, we use a software called a hypervisor. The hypervisor divides the hardware resources to create and manage multiple virtual machines.
+
+- Hypervisors: VMware ESXi, Microsoft Hyper-V, KVM, Xen. Amazon Web Services (AWS) also provides virtual machines called Amazon EC2, which use a Nitro Hypervisor under the hood.
+
+- However, even with VMs, each virtual machine typically ran only one main application. Running multiple apps on one VM caused conflicts and inefficiency. To solve this, containers were invented around 2010.
+
+- Containers: Lightweight, isolated environments that can run multiple applications on the same host. Each machine can have multiple containers, and a single app can run across multiple containers. Containers share the host OS kernel but have their own file system, libraries, and configurations — making them fast and portable.
+
+- Docker: It runs and manages multiple containers. Think of Docker like a ship carrying multiple containers — one could hold Pathao, another Amazon, and another bKash. To manage and navigate all these containers efficiently, we use a tool called Kubernetes.
+
+- Docker is easy to use, runs on any operating system, and has a large ecosystem. When a Docker container crashes, Kubernetes can automatically detect and restart it — this is called container orchestration.
+
+- Kubernetes: A container orchestration tool that automatically provisions, deploys, replaces, restarts, and scales containers. It manages the lifecycle of containers — create, delete, update, and monitor them efficiently.
+
+- Modern Container Ecosystem: To run containers, we need a container runtime. Docker originally used a runtime called containerd. Now, even Kubernetes uses containerd directly to manage and run containers.
+
+In short: Kubernetes is a container management and orchestration tool.
+
+
+- sudo apt install docker.io -y (install docker)
+- sudo cat /etc/group (list all the user and group and inside it there will be docker. and each of these forms a group and after the name it contains the users who can access.
+- sudo usermod -aG docker $USER (add the root user to the docker group)
+- sudo reboot. (reboot the vm)
+- docker ps -a (to check all containers).
+
+
+- Docker Recipe : Docker file, Image, Container, Volume, Network.
+- Docker File : Script to build a docker image.
+- Image : Snapshot or blueprint of container.
+- Container : Running instance of image. 
+- Volume : Persistant Storage. (lets say we have a container which contains database, now if the container is crashed the data is lost without backup, thats why we need a separate storage to copy the data, so if the container crashed, we provision and restart the container for database, we fetch the data from the volume)
+- Network : Commnunication Between the containers. 
+
+- DockerHub : Stores docker images. 
+
+- docker pull hello-world (pull a image called hello-world)
+- docker images (show list of all image)
+- docker run hello-world:lastest (create and run new container using this image, we dont have to pull the image)
+- docker run -d -e MYSQL_ROOT_PASSWORD=1234 mysql:latest (setting up the environment, -d means runs detach mode)
+- docker exec -it #contaier_id bash (enters container bash, -it means interactive mode)
+- after entering mysql container to show the data base run : show databases
+- exit (exit from the container)
+- docker start #containerid (start container)
+- docker stop #containerid (stop container)
+- docker rm #containerid (remove container)
+- docker rmi #imageid (remove image)
+
+
+
+
+
+
+
+
+
+
