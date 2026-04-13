@@ -73,13 +73,6 @@
 - yy - copy a line, dd- delete, p - paste, x - delete a single character in vim editor, u - undo the change, ctrl+r - redo the change.
 
 
-- systemctl start servicename (start a service)
-- If you want your server to act as a web server, the httpd (Apache) service must be running.
-- we have to enable httpd service so that it starts automatically when system boots up and we dont need to manually start the service.
-- systemctl enable httpd
-- sudo systemctl stop httpd
-- sudo systemctl disable httpd
-
 
 -------- DNS --------
 
@@ -134,3 +127,30 @@
 - ssh-keygen -t rsa (generate a key-pair consisting of public key and private key on your pc)
 - ssh-copy-id bob@devapp01 (copy the public key to the remote server, when we are connecting to the server we need to have the private key in local and public key has to be on remote server)
 - scp (secure copy protocol, it is used to transfer files between machines securely over SSH.)
+
+
+----- Cronjob --------
+
+- cronjob is like a scheduler, specific task run automatically at specific times of interval everyday or someday.
+- crontab -i (prompt before deleting user's cronjob)
+- crontab -r (delete user's crontab)
+- crontab -l (list user's crontab)
+- crontab -e (edit user's crontab)
+- for inspecting the cronjobs first calumn is minutes, second for hours, the fifth is the day of the week, third is for day number of the month, fourth is for month number of the year
+- 00,30 * * * * /usr/local/bin/system-debugger.sh (run every 30 minutes)
+
+
+----- Systemd -------
+
+- systemctl start servicename (start a service)
+- If you want your server to act as a web server, the httpd (Apache) service must be running.
+- we have to enable httpd service so that it starts automatically when system boots up and we dont need to manually start the service.
+- systemctl enable httpd (enable a service for enabling it for multiuser after reboot)
+- sudo systemctl stop httpd
+- sudo systemctl disable httpd
+- sudo systemctl status servicename
+- sudo journalctl -u sample.service (see the details status of the service)
+- sudo vim /etc/systemd/system/sample.service (open this systemd service)
+- set the ExecStart for missing strating service, ExecStart=/bin/bash /root/sample_script.sh
+- set the Restart:always for whenever the service stops for any reason it automatically starts
+- sudo systemctl daemon-reload (see the changes in the service configuration and reload to start)
