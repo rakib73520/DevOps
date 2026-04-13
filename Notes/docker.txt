@@ -71,5 +71,30 @@ In short: Kubernetes is a container management and orchestration tool.
 - docker image prune -a (delete all unused images)
 
 
+- docker run -d -e MYSQL_ROOT_PASSWORD=db_pass123 --name mysql-db MySQL
+
+- cat Dockerfile (see the base images and other staff)
+
+- docker build -t webapp . (build an image -t -> tag. give your image a name, then '.' -> using all from current directory. note : to build an image a Dockerfile is necessary)
+
+- docker exec -it container_id bash (execute in interactive terminal, bash will open a different terminal)
+
+- docker run -d -p 8085:5000 --name clickcounter --link redis kodekloud/click-counter (we can link another container with this container by --link anothercontainer_id)
+
+- docker stop $(docker ps -q) (stops all running container)
+
+- /var/lib/docker (contains all the containers, images, volume in the host machine)
+
+- data stored by the container is on var/lib/
+
+- data stored by the volume in host opt/data
+
+- docker run -d \
+> --name mysql-db \
+> -e MYSQL_ROOT_PASSWORD=db_pass123 \
+> -v /opt/data:/var/lib/mysql \
+> mysql (setting the volume)
+
+
 
 
