@@ -48,10 +48,27 @@ In short: Kubernetes is a container management and orchestration tool.
 - docker rmi #imageid (remove image)
 
 
+- Docker Steps: Dockerfile -> build -> Docker Image -> run -> Container Running
+- For mysql we dont need docker file, because the docker is created in dockerhub.
+- docker build -t falsk-app:lastest
+- docker run -d -p 5000:5000 flask-app:latest (-d -> detach mode, -p -> port)
+- docker compose is basically i have mulitple docker file one for frontend, one for backend. so docker compose compress multiple file and run it onces.
+
+- docker inspect containerid (show everything of a container)
+- docker exec containerid env (shows the environment variable details)
+- docker run -p 38282:8080 --name blue-app -e APP_COLOR=blue kodekloud/simple-webapp (run a docker with an image with setting the host and container port and setting the environment variable appcolour to blue)
 
 
+- docker network ls (shows all the docker network)
+- docker network inspect networkname (inspect that network)
+- docker run -d --name alpine-2 --network none alpine (setting a docker container network to none)
+- docker network create --driver bridge --subnet 182.18.0.0/24 --gateway 182.18.0.1 wp-mysql-network (creating a network)
 
 
+- docker run -d -p 5000:5000 --name my-registry --restart=always registry:2 (create a registry container, setting restart policy to always)
+- docker push localhost:5000/nginx:latest (push this image to the registry container which is on local machine)
+- docker pull localhost:5000/nginx:latest (pulling from local rigistry)
+- docker image prune -a (delete all unused images)
 
 
 
