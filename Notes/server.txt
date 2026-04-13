@@ -159,6 +159,59 @@
 
 ------ Storage --------
 
+- LVM (Logical Volume Manager)
+- sudo pvdisplay (it shows the information about physical volume and logical volume)
+- PV (physical volume, different from disk, disk is raw storage the structue and logical partition doesnt allow)
+- sudo pvcreate /dev/vde /dev/vdf (make physical volume with two disk)
+- sudo vgcreate caleston_vg /dev/vde /dev/vdf (create a volume group called caleston_vg using two disk)
+- sudo lvcreate -L 1G -n data caleston_vg (create a logical volume storage of 1g called data using the caleston_vg group)
+- sudo lvresize -L +500M /dev/mapper/caleston_vg-data, sudo resize2fs /dev/mapper/caleston_vg-data (add 500M to the logical volume)
 - Master Boot Record (MBR) is an old partitioning system used to organize data on a hard disk.
 - using the MBR two types of partitions can be done. one is primary, another is extended. the MBR allows max 4 partitions. 4 primary, 3 primary 1 extended. inside the primary the os is stored. and inside the extended there can be many partition made like D:, E:, F:
 - sudo gdisk /dev/vdc (creating a partition)
+
+
+------ FileSystem --------
+
+- 🔹 Step 2: What is /dev/vdb?
+
+- In Linux: /dev/ = directory where devices are listed, /dev/vdb = a disk (or virtual disk)
+- we cannot use a disk directly, we must mount it (attach it to the system) So: /dev/vdb → mounted at → /mnt/backups, means: The disk is connected to that folder
+- mounting requires a filesystem
+- sudo df -h (it shows how much disk space is free on this system)
+- sudo blkid /dev/vdb (finds the filesystem for the disk, example : ext2)
+- sudo mkfs.ext4 /dev/vdc (create a file system called ext4, mkfs means make file system)
+- sudo mkdir /mnt/data (make a directory called data in mnt for mount)
+- sudo  mount /dev/vdc /mnt/data (mount the data folder with vdc disk)
+- only doing mount manually works for now but if the system is rebooted it forgots the mount
+- fstab = file system table (this table stores the mount, so when ever the system is rebooted the system go through this table and make mount before any action, inside the fstab last 3 column value rw -> power of mount folder, 0 -> dump = 0, meaning take no backup, 0 -> fsck: filesystem check, 0 means do not check the corruption)
+- sudo vi /etc/fstab (opens the table)
+- /dev/vdc /mnt/data ext4 rw 0 0 (add this inside the table)
+
+
+------ Deploy ------ 
+
+- sudo scp caleston-code.tar.gz bob@devapp01:~/ (copy the project to the server)
+- sudo tar -C /opt/ -xvf caleston-code.tar.gz (extract the zip using tar on /opt/ folder, x - extract, v - view, f - file and -C/opt/ says before extracting go to /opt/
+- /etc/postgresql/10/main/pg_hba.conf inside this add it : host all all 0.0.0.0/0 md5 (the database server can be accesable from any server)
+- sudo systemctl start postgresql (start the postgressql service)
+- sudo netstat -tulnp | grep postgres (see what port the postgresql service is listening)
+- now go back to the dev server. and navigate to the project and run the command for running
+- run the app running command with 0.0.0.0:8000 so that anyone can access it. 
+- now this is manually running, if server restart it stops. the solution is to create a systemd service for this automation
+- sudo vi /etc/systemd/system/mercury.service (edit the service in interactive mode)
+- [Unit]
+Description=Project Mercury Web Application
+
+[Service]
+ExecStart=/usr/bin/python3 manage.py runserver 0.0.0.0:8000
+Restart=on-failure
+WorkingDirectory=/opt/caleston-code/mercuryProject
+User=mercury
+
+[Install]
+WantedBy=multi-user.target
+
+set this, save and exit
+
+- sudo systemctl enable --now mercury.service (enable the service)
