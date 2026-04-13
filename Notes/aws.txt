@@ -22,3 +22,7 @@
 - we can create blueprint to create ec2 machine. that is basically called template in aws.
 - we create muliple server for one application. to manage user traffic we use load balancer is called alb (application load balancer). in aws we called it elastic lb. another one is NLB (network lb). decides which network this request will go.
 - between load balancer and server there is another layer which is target-grouping.
+
+
+- Relational Db : MySQL - opensource, RDS-aws, oracle
+- Non Relational : MongoDb - opensource, DynamoDB - aws managed

@@ -1,0 +1,82 @@
+- ssh bob@devapp01 (bob user name that is present in the server we are trying to connect, and devapp01 is the hostname of that server, instead of hostname we can also use the ipadrress of the server)
+
+- sudo bash (open root shell to have the power of super shell, and avoid repeating password requirement)
+
+- sudo apt install iptables -y (install ip tables)
+
+- exit (to exit from the server)
+
+- sudo iptables -L (view the inbound and outbound iptables rules)
+
+- iptables -A INPUT -p tcp -s 172.16.238.187 --dport 22 -j ACCEPT (adding inbound rules -A INPUT means adding inbound rules, -s for souce ip address which wants to make request, --dport for destination port which is current server port where the request will come, -j Allowing traffic)
+
+- iptables -A INPUT -j DROP (drops all the request)
+
+- here the incoming request works like this. the request comes, it checks the ip tables rules from top to bottom, to check wheater this request is allowed or not. if it finds a match first time it does not check for anyting below. so in the drop rules since its meant for all kind of request it will block any request)
+
+- iptables -A OUTPUT -p tcp -d 172.16.238.11 --dport 5432 -j ACCEPT (adding the outbound rules for postgray sql, similar as inbound)
+
+- iptables -I OUTPUT 1 -p tcp -d google.com --dport 443 -j ACCEPT (Inserting at the top of the table. row 1)
+
+- sudo chsh -s /bin/sh bob (change the shell from bash to bronue shell for the user bob)
+
+- grep bob /etc/passwd (verify change)
+
+- echo $TERM (seeing the terminal environment variable)
+
+- echo 'export PROJECT="MERCURY"' >> ~/.profile (inside the user home/bob directory the .profile contains variables, alias, command shortcut etc, so when a particular user terminal is opened. thse .profile file is automatically executed. here we export a variable and append it at the end of .profile)
+
+- echo 'alias up=uptime' >> .profile (make a command shorter)
+
+- export PS1="\u@\h \$(date +%Y-%m-%d): " (update the prompt where user will show date along with name)
+
+- uname -r (see the kernel version)
+
+- lsblk -d (see how many disk are available)
+
+- ps -p 1 (see the first process that start while bootng)
+
+- sudo systemctl get-default (after the first process : systemd starts, it starts the default targer process like graphical.target)
+
+- sudo systemctl set-default multi-user.target (changing the default target process from graphical to multi-user)
+
+- sudo file /root/firefox.deb (shows what type of file is it)
+
+- to install a third party software, it should be installed in opt folder
+
+- lspci | grep -i ethernet (it shows the vendor or the company that made the ethernet interface card - NIC)
+
+- wget https://example.com/file.txt (wget is like a download button from the internet)
+
+- rpm is Red hat package manager which can install, remove software that is downloaded in the computer, and it also know what are the software that installed, its a low level tool, you manually installed package with rpm, rpm doesn't handle dependencies packages, it focus only on specified packages only)
+
+- which wget (to see where this wget package file is located)
+
+- rpm -qf /usr/bin/wget (it shows the package file for the wget)
+
+- sudo rpm -ivh packagename (install that package, lets say for firefox there are packages, to install the firefox we have to install its packages, here -i means install, -v means verbose, -h means shows the log)
+
+- YUM (Yellowdog Updater Modified) is a high-level package manager that uses RPM underneath. It automatically: Resolves dependencies, Downloads packages from repositories, Installs everything needed.
+
+- sudo yum install firefox -y (install firefox software from the internet, automatically download all the packages that it needs from the internet, unlike the rpm the packages doesn't have to download the package manually first)
+
+- yum repolist (list all the online repository for package)
+
+- repository configuration files are stored in /etc
+
+- apt search chromium (apt use in ubuntu/Debian instead of yum, it search the package)
+
+- apt remove firefox (removes firefox)
+
+- there are 3 operation mode in vi editor : Command mode, Insert mode, Last line
+
+- yy - copy a line, dd- delete, p - paste, x - delete a single character in vim editor, u - undo the change, ctrl+r - redo the change.
+
+
+-------- DNS --------
+
+- cat /etc/resolv.conf (shows the ip address of dns server which is currently using in this system under the nameserver) its configuration file
+
+- to change the dns server we just need to change the ip address(ip address of another dns server) of nameserver in the resolv.conf file.
+
+- etc/nsswitch.conf (here we can find the sequence of dns lookup/resolution methon. whether file first or dns server first)
