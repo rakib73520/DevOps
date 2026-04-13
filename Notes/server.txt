@@ -1,0 +1,44 @@
+------ Networking -----
+
+- ip a (shows all the ip addresses are asigned)
+- from there in the eth0 after the inet the primary ip address of this pc will be found)
+- Network Interface : here eth0 is the name of the network interface of the primary ip address, A network interface is just how your computer connects to the network (like Wi-Fi or cable)
+- Gateway (its like a main gate of your house. from my phone i send a messege it goes to router. router actually decide where to send this data. here router is the gateway. it has ip address)
+- ip route (shows the gateways)
+- telnet (is used to connect a server to a specific port)
+- telnet servername/hostname 80 (connect to the server in a http port)
+- ping hostname/servername
+- ip link (shows the status of network interfaces, UP or DOWN)
+- sudo ip link set eth0 up (up the eth0 interface)
+- sudo ip route add default via 172.16.238.1 (add a default gateway through network interface eth0, the ip is the gateway/router ip address)
+
+
+------ User Management ------
+
+- id bob (shows the user details, which group he belongs)
+- sudo grep bob /etc/sudoers (shows what level of access or power bob user has)
+- sudo grep bob /etc/shadow (shows the encrypted password of the the user bob)
+- sudo grep chris /etc/passwd (shows the full name of the user cris)
+- sudo grep mercury /etc/group (shows the group name)
+- sudo useradd sarah, sudo passwd sarah (create a new user)
+- sudo groupadd -g 1010 john (create a new group with group id 1010 called john)
+- sudo useradd -u 1010 -g 1010 -s /bin/sh john (create the user with user id 1010, inside the group of group id : 1010, -s login shell with minimal control instead of /bin/bash)
+
+
+------ Permission --------
+
+- ls -ld sports (see the files permisson)
+- first set of rwx is the owners read, write and execution command.
+- second set of rwx is the groups read, write and execution command.
+- thired set of rwx is for others.
+- chmod 755 soccer (giving the owner full permission, and group and other has only read and execution permission)
+- sudo chown -R mercury soccer (changing the ownership of the file soccer to mercury user, -R if there is multiple folders and files inside this folder)
+
+
+----- SSH ---------
+
+- ssh service use port 22 by default
+- Instead of logging into a server using a password, SSH keys provide a much more secure and efficient way.
+- ssh-keygen -t rsa (generate a key-pair consisting of public key and private key on your pc)
+- ssh-copy-id bob@devapp01 (copy the public key to the remote server, when we are connecting to the server we need to have the private key in local and public key has to be on remote server)
+- scp (secure copy protocol, it is used to transfer files between machines securely over SSH.)
