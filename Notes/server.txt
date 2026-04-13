@@ -154,3 +154,11 @@
 - set the ExecStart for missing strating service, ExecStart=/bin/bash /root/sample_script.sh
 - set the Restart:always for whenever the service stops for any reason it automatically starts
 - sudo systemctl daemon-reload (see the changes in the service configuration and reload to start)
+
+
+
+------ Storage --------
+
+- Master Boot Record (MBR) is an old partitioning system used to organize data on a hard disk.
+- using the MBR two types of partitions can be done. one is primary, another is extended. the MBR allows max 4 partitions. 4 primary, 3 primary 1 extended. inside the primary the os is stored. and inside the extended there can be many partition made like D:, E:, F:
+- sudo gdisk /dev/vdc (creating a partition)
