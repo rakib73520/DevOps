@@ -1,0 +1,33 @@
+- kubectl get nodes -o wide(see how many nodes of a cluster has, -o wide is for more information like under which os the Kubernetes is running)
+
+- kubectl version (see the version of the Kubernete)
+
+- Kubernetes runs on the node. there are two main node, control-plane node and workder node. each node has kubelet installed which is basically the agent.
+
+- kubectl get pods (see how many pods exists, under the ready column '1/2' indicates that inside this pod total 2 containers are there and 1 is ready)
+
+- kubectl run nginx --image=nginx (create a pod inside the cluster, named nginx using the image of nginx. it basically create a container of web server and put it inside the pod)
+
+- kubectl describe pod podname (shows all the information of that pod, example what images has been used to creating that pod, which node they belong, how many containers are there inside a pod, what images of each container, see the state of each container, under the event we can find out why that container failed)
+
+- kubectl delete pod webapp (delete the webapp pod)
+
+- kubectl run redis --image=redis123 --dry-run=client -o yaml > redis-definition.yaml (create the redis pod with the iamge, dry run: client means dont create the pod yet, instead create a .yaml file and store the following action in the yaml file)
+
+- kubectl create -f redis-definition.yaml (create the pod using the manifest file or .yaml file)
+
+- kubectl edit pod redis (edit the pod called redit to fix the image)
+
+- kubectl apply -f redis-definition.yaml (after editing reapply the yaml file to update the pod)
+
+- kubectl get replicaset (shows how many replica sets are there, suppose you want your database always up and running, so you make three identical conatainer, if one fails immediately jumps on 2nd replica)
+
+- kubectl describe replicaset (shows the details as described earlier for replicaset)
+
+- apiVersion = v1 is used for core resources like pods, services, configmap, and apps/v1 = for replicaset, deployment. 
+
+- for a replicaset yaml file, the kind is the what type of service, like replicaset, under metadate then name : the name of the replicaset. and selector then lebel, then tier name. Kubernetes use the lebel name to group them. inside the template its for the pods. the lebel and template tier name has to be the same. spec got the container config.
+
+- after editing the replicaset, delete the previous pods so that the new replica pods can start
+
+- kubectl scale rs new-replica-set --replicas=5 (increase the replicas or number of pods) 
