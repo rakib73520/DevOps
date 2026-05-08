@@ -137,3 +137,163 @@ db_servers
         name: 'web_user'
         uid: 1040
         group: 'developers'
+
+
+
+--------- Variable ----------
+
+- we can define variables in an Ansible inventory file. Like this : 
+
+[all:vars]
+app_list=['vim', 'sqlite', 'jq']
+user_details={'username': 'admin', 'password': 'secret_pass', 'email': 'admin@example.com'}
+
+- Inside a playbook we call variable like this : {{ variable }}
+
+
+- name: 'Add nameserver in resolv.conf file on localhost'
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: 'Add nameserver in resolv.conf file'
+      lineinfile:
+        path: /tmp/resolv.conf
+        line: 'nameserver {{  nameserver_ip  }}'
+
+- Disabling a port : 
+
+    - name: 'Disable SNMP Port'
+      firewalld:
+        port: '{{ snmp_port }}'
+        permanent: true
+        state: disabled
+
+
+- adding more variables via vars
+
+---
+- hosts: localhost
+  vars:
+    car_model: 'BMW M3'
+    country_name: USA
+    title: 'Systems Engineer'
+  tasks:
+    - command: 'echo "My car is {{ car_model }}"'
+    - command: 'echo "I live in the {{ country_name }}"'
+    - command: 'echo "I work as a {{ title }}"'
+
+- Ansible looping 
+
+
+- hosts: web_nodes
+  become: yes
+  tasks:
+    - name: Install applications
+      yum:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - "{{ app_list }}"
+
+here -> with_items = loop, item = current element in the loop
+
+
+- Setting up a user on the server via a seperate file called user_details which contains the secrets
+
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: Set up user
+      user:
+        name: "{{ user_details.username }}"
+        password: "{{ user_details.password }}"
+        comment: "{{ user_details.email }}"
+        state: present
+
+
+
+
+---------- Conditionals ------
+
+
+- ansible_os_family is the Ansible built-in variable that populates the flavour of the operating system.
+
+- 'when' is used for conditions
+
+- example of using condition : 
+
+-  name: 'Execute a script on all web server nodes'
+   hosts: all
+   become: yes
+   tasks:
+     -  service: 'name=nginx state=started'
+        when: 'ansible_host=="node02"'
+
+
+- for age condition 
+
+---
+- name: 'Am I an Adult or a Child?'
+  hosts: localhost
+  vars:
+    age: 25
+  tasks:
+    - name: I am a Child
+      command: 'echo "I am a Child"'
+      when: 'age < 18'
+    - name: I am an Adult
+      command: 'echo "I am an Adult"'
+      when: 'age >= 18'
+
+
+- condition with register
+
+---
+- name: 'Add name server entry if not already entered'
+  hosts: localhost
+  become: yes
+  tasks:
+    - shell: 'cat /etc/resolv.conf'
+      register: command_output
+    - shell: 'echo "nameserver 10.0.250.10" >> /etc/resolv.conf'
+      when: 'command_output.stdout.find("10.0.250.10") == -1'
+
+
+  for the first task : Stores the output in a variable called command_output
+  command_output.stdout → contains the actual file content as a string
+  for the second task : if not exist only then write. 
+
+  better way of doing it use lineinfile:
+
+- name: Ensure nameserver exists
+  lineinfile:
+    path: /etc/resolv.conf
+    line: "nameserver 10.0.250.10"
+
+
+
+------ loops -------
+
+- loops can be executed on dictionary values
+
+- name: Install packages
+  yum:
+    name: "{{ item }}"
+  with_items:
+    - nginx
+    - git
+
+
+---
+-  name: 'Print list of fruits'
+   hosts: localhost
+   vars:
+     fruits:
+       - Apple
+       - Banana
+       - Grapes
+       - Orange
+   tasks:
+     - command: 'echo "{{ item }}"'
+       with_items: '{{ fruits }}'
