@@ -215,3 +215,21 @@ WantedBy=multi-user.target
 set this, save and exit
 
 - sudo systemctl enable --now mercury.service (enable the service)
+
+
+
+- ss -tuln 
+
+
+--- enter the docker container and ping ----
+
+docker exec -u 0 -it <backend_container_name> /bin/bash
+
+# 2. Update the package lists (inside the container shell)
+apt-get update
+
+# 3. Install the ping utility
+apt-get install -y iputils-ping
+
+# 4. Try to ping your Oracle server IP
+ping <your_oracle_ip_address>

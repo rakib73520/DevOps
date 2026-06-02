@@ -96,5 +96,8 @@ In short: Kubernetes is a container management and orchestration tool.
 > mysql (setting the volume)
 
 
+-- docker file has 3 stage way of building. stage 1 : called build stage. where it gather everything and copy the project into one place. then stage 2 : called publish stage. where it make a package or wraps everything up. then stage 3 : called runtime stage. where it downloads all the required dependencies necessary like a shipping truck just moving the final product one place to another.
+
+
 
 
