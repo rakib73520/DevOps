@@ -1,0 +1,299 @@
+- Dictionary is a unordered collection and list is a ordered collection.
+
+- in yaml we store dictionary like key value pairs. in yaml inside a dictionary there could be multiple nested dictionary
+
+- in yaml '-' it start a list of iteams, like name:..,vlaue:...
+
+- inside the /etc/ansible/ we can find the config file, hosts, roles.
+
+- Ansible uses SSH to make connection with a Linux remote host, hence it uses port 22 by default.
+
+- We use ansible_connection=local to change the default connection which is ssh to its hosts/client.
+
+- ansbile_connection=winrm (to connect to a windows server)
+
+- Inventory stays on playbooks. and inside the inventory all the hosts/client ip or .com is stored.
+
+- We can give them name or alias like this : 
+
+web1 ansible_host=server1.company.com
+
+- Whole inventory : 
+
+web3 ansible_host=server3.company.com ansible_connection=ssh ansible_user=root ansible_ssh_pass=Password123!
+db1 ansible_host=server4.company.com ansible_connection=winrm ansible_user=administrator ansible_password=Dbp@ss123!
+
+- We can group them like this : 
+
+[web_servers]
+web1
+web2
+web3
+[db_servers]
+db1
+
+- and further grouping : 
+
+[all_servers:children]
+web_servers
+db_servers
+
+--------- Playbook --------
+
+- In ansible playbook each block starting with '-' (Outer level) are called play each.
+
+- There is a task portion under each play. again inside the task each starting with '-' called each task.
+
+- ansible-playbook install.yaml (This command run a playbook called install.yaml)
+
+- To run update_service.yml playbook in check mode, use ansible-playbook update_service.yml --check command.
+
+- we use -check flag to check before ran on the server. and -syntext-check for checking syntex error.
+
+- ansible-lint database_setup.yml (spell-check + quality checker for your Ansible code)
+
+- become: yes (menas became super user)
+
+- ansible-playbook -i inventory playbook.yaml (run this playbook on the hosts on inventory)
+
+- Example of two playbook
+
+- name: 'Execute two commands on node01'
+  hosts: node01
+  become: yes
+  tasks:
+    - name: 'Execute a date command'
+      command: date
+    - name: 'Task to display hosts file on node01'
+      command: 'cat /etc/hosts'
+
+- name: 'Execute a command on node02'
+  hosts: node02
+  become: yes
+  tasks:
+    - name: 'Task to display hosts file on node02'
+      command: 'cat /etc/hosts'
+
+- Ansible command module support free_form parameter. (free_form = shortcut way to pass the command directly)
+
+- idempotency means: Running the same playbook multiple times gives the same result (no unnecessary changes).
+
+- In Ansible, a module is: a small program that does a specific task on a server
+
+- apt, yum, copy, file, service, user (these are all modules)
+
+- lineinfile ansible module (It keeps the existing lines as well and add a new given line in the file + add if not exists)
+
+- System modules are actions to be performed at a system level such as modifying the users and groups on a system, modifying iptables, starting/stopping the service etc.
+
+- Module Plugin allows you to integrate with a cloud provider's API for custom resource provisioning.
+
+- We can make a custom module : look like this
+
+- name: Provision custom cloud resource
+  custom_cloud:
+    param1: value1
+    param2: value2
+
+
+- Dynamic Inventory Plugin will be used to fetch real-time information about your AWS ec2 instances.
+
+- ansible-inventory --list -i aws_inventory.py
+
+- This is a dynamic inventory script. What it does:Runs a script, That script talks to AWS (or other cloud), It fetches live servers automatically
+
+- ec2_instance module is primarily used for managing ec2 instances.
+
+- Execute a script on all the client server : like this 
+
+- name: 'hosts'
+  hosts: all
+  become: yes
+  tasks:
+    - name: 'Execute a script'
+      script: /tmp/install_script.sh
+
+- Start the httpd service:
+
+- name: 'hosts'
+  hosts: all
+  become: yes
+  tasks:
+    - name: 'Execute a script'
+      script: /tmp/install_script.sh
+
+- Add index.html
+
+- name: 'Adding index.html file'
+      lineinfile:
+        path: /var/www/html/index.html
+        line: "Welcome to ansible-beginning course"
+        create: true
+
+- Crete a user
+
+    - name: 'Create a user called web_user'
+      user:
+        name: 'web_user'
+        uid: 1040
+        group: 'developers'
+
+
+
+--------- Variable ----------
+
+- we can define variables in an Ansible inventory file. Like this : 
+
+[all:vars]
+app_list=['vim', 'sqlite', 'jq']
+user_details={'username': 'admin', 'password': 'secret_pass', 'email': 'admin@example.com'}
+
+- Inside a playbook we call variable like this : {{ variable }}
+
+
+- name: 'Add nameserver in resolv.conf file on localhost'
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: 'Add nameserver in resolv.conf file'
+      lineinfile:
+        path: /tmp/resolv.conf
+        line: 'nameserver {{  nameserver_ip  }}'
+
+- Disabling a port : 
+
+    - name: 'Disable SNMP Port'
+      firewalld:
+        port: '{{ snmp_port }}'
+        permanent: true
+        state: disabled
+
+
+- adding more variables via vars
+
+---
+- hosts: localhost
+  vars:
+    car_model: 'BMW M3'
+    country_name: USA
+    title: 'Systems Engineer'
+  tasks:
+    - command: 'echo "My car is {{ car_model }}"'
+    - command: 'echo "I live in the {{ country_name }}"'
+    - command: 'echo "I work as a {{ title }}"'
+
+- Ansible looping 
+
+
+- hosts: web_nodes
+  become: yes
+  tasks:
+    - name: Install applications
+      yum:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - "{{ app_list }}"
+
+here -> with_items = loop, item = current element in the loop
+
+
+- Setting up a user on the server via a seperate file called user_details which contains the secrets
+
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: Set up user
+      user:
+        name: "{{ user_details.username }}"
+        password: "{{ user_details.password }}"
+        comment: "{{ user_details.email }}"
+        state: present
+
+
+
+
+---------- Conditionals ------
+
+
+- ansible_os_family is the Ansible built-in variable that populates the flavour of the operating system.
+
+- 'when' is used for conditions
+
+- example of using condition : 
+
+-  name: 'Execute a script on all web server nodes'
+   hosts: all
+   become: yes
+   tasks:
+     -  service: 'name=nginx state=started'
+        when: 'ansible_host=="node02"'
+
+
+- for age condition 
+
+---
+- name: 'Am I an Adult or a Child?'
+  hosts: localhost
+  vars:
+    age: 25
+  tasks:
+    - name: I am a Child
+      command: 'echo "I am a Child"'
+      when: 'age < 18'
+    - name: I am an Adult
+      command: 'echo "I am an Adult"'
+      when: 'age >= 18'
+
+
+- condition with register
+
+---
+- name: 'Add name server entry if not already entered'
+  hosts: localhost
+  become: yes
+  tasks:
+    - shell: 'cat /etc/resolv.conf'
+      register: command_output
+    - shell: 'echo "nameserver 10.0.250.10" >> /etc/resolv.conf'
+      when: 'command_output.stdout.find("10.0.250.10") == -1'
+
+
+  for the first task : Stores the output in a variable called command_output
+  command_output.stdout → contains the actual file content as a string
+  for the second task : if not exist only then write. 
+
+  better way of doing it use lineinfile:
+
+- name: Ensure nameserver exists
+  lineinfile:
+    path: /etc/resolv.conf
+    line: "nameserver 10.0.250.10"
+
+
+
+------ loops -------
+
+- loops can be executed on dictionary values
+
+- name: Install packages
+  yum:
+    name: "{{ item }}"
+  with_items:
+    - nginx
+    - git
+
+
+---
+-  name: 'Print list of fruits'
+   hosts: localhost
+   vars:
+     fruits:
+       - Apple
+       - Banana
+       - Grapes
+       - Orange
+   tasks:
+     - command: 'echo "{{ item }}"'
+       with_items: '{{ fruits }}'

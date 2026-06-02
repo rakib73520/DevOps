@@ -30,4 +30,32 @@
 
 - after editing the replicaset, delete the previous pods so that the new replica pods can start
 
-- kubectl scale rs new-replica-set --replicas=5 (increase the replicas or number of pods) 
+- kubectl scale rs new-replica-set --replicas=5 (increase the replicas or number of pods)
+
+- kubectl get deployment (see the number of deployment) + every other functionality are same as replicasets
+
+- deployment is basically a manager of replicaset. here replicaset is making sure that desired pods always there if anything destorys. but the deployment happens based on replicaset. where it manage new version of pods. imagine v1 of 4 pods is running, a new version is appered v2. now the deployment influence the replicaset, by removing the v1 pod and creating a pod of v2. step by step one by one. reducing downtime.
+
+- in deployment it got old replicaset and newreplicaset name. with pods container image and other information. it also has strategy. there are two type of strategy. one is rolling update, another is recreate. rolling update is 1 old replaced with 1 new, and so on. and the recreate is delete all the old pods and creates all the new.
+
+- to test it in the deployment you change the pods containers image. now there is two version the old one and the image created with new one. when we run a test or request got hit in the service we can see all the version 2 pods. under the max unavailabe we can also see the max number of pod can be unavailable during the upgrating pods. we change the pods image in the deployment for a new update.
+
+- kubectl get service.
+
+- default kubernetes service type is clusterIp.
+
+- pods have dynamic IPs, can die and restrart. so we cannot rely on pods. but service has a fixed dns name and a stable ip. forwards request to pods.
+
+- you app is running on port 8080 inside the pods container. here target port is 8080. meaning sends traffic to port 8080 inside the pod.
+
+- port is the Service port. port exposed by the service, typically any port.
+
+- Client → Service:80 → Pod:8080
+
+- here we hit in the browser : serverip:service_port. the service port take http, https request. the service port could be anything like 3000, 80, 443. then it forwards the request to the pods. the service port and target port can be same and commonly used.
+
+- label is for identifying pod and selector is for choosing pod. (Service → selector → matches labels → sends traffic to Pods)
+
+- Endpoint is the actual IP address of a Pod that a Service can send traffic to.
+
+- service api version is v1, kind : Service. with all the information we can create a service with .yaml file and apply so that we can access the application.

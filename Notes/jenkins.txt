@@ -1,0 +1,87 @@
+- jenkins is an automation server
+
+- java is required for installing jenkins
+
+- we can run jenkins in a container
+
+- after following the documentation installation. copy the one time password for first time login to jenkins here : sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+
+- sudo systemctl daemon-reload
+
+- sudo systemctl restart jenkins
+
+- we can change the port for the jenkins from here : sudo vim /lib/systemd/system/jenkins.service
+
+- curl -sSfL http://localhost:8090 (verify its running or not. 
+
+- ps aux | grep jenkins (used for checking wheather the jenkins is running)
+
+- Inside the settings -> manage jenkins -> users (we can see how many users are configured)
+
+- Inside the profile(on the right top) -> security -> ssh key will be there if any.
+
+- To find which port is being for ssh. Settings -> manage jenkins -> security -> SSH Server
+
+- ssh -i /home/mike/.ssh/jenkins_key -l mike -p 8022 jenkins-server  safe-restart (safely restart the jenkins server)
+
+- jenkins stores it data parmanently in the /var/lib/jenkins
+
+- config.xml (is the main configuration file)
+
+- Jenkins home directory is most important to backup, since it contains all jobs, configuration, build history, plugins etc.
+
+-  For Installing a plugins 
+
+Login into the Jenkins server and follow the below given steps:
+
+1. Go to Manage Jenkins.
+
+2. Click on Plugins.
+
+3. Under Available, search for ThinBackup plugin.
+
+4. Select and install it.
+
+5. After that click on Restart Jenkins when installation is complete and no jobs are running.
+
+- Backeup Jenkins using thin Backup
+
+Create the backup directory first from command line:
+
+sudo mkdir /var/lib/jenkins/jenkins_backup
+sudo chown -R jenkins /var/lib/jenkins/jenkins_backup
+Login into the Jenkins and follow the below given steps:
+
+1. Go to Manage Jenkins.
+
+2. Click on ThinBackup.
+
+3. Go to Settings and enter /var/lib/jenkins/jenkins_backup as the Backup directory, tick Backup plugins archives check box and save the changes.
+NOTE: In the newer version of ThinBackup plugin, the settings can be found under Manage Jenkins > System.
+
+4. Click on Backup Now.
+
+
+- Restore the jenkins backup 
+
+Login into the Jenkins and follow the below given steps:
+
+1. Go to Manage Jenkins.
+2. Click on ThinBackup.
+3. Click on Restore.
+4. Select the latest backup available from the list, select Restore plugins and then click Restore (you need not to select any other options).
+5. Restart Jenkins service.
+
+service jenkins restart
+
+
+
+------ CD -------
+
+- A Jenkinsfile is a text file that contains the definition of a Jenkins Pipeline.
+
+- install jenkins pipeline
+
+- Create New Iteam, name it your pipeline name, select the pipeline. then write the script.
+
+- click the job -> configure -> we can edit the script

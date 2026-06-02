@@ -1,0 +1,19 @@
+- The first value following the resource keyword in a resource block is the resource type and second one is resource name.
+
+- In the type of resource the word before '_' is the provider name.
+
+- terraform init (for initialise the terraform)
+
+- terraform plan (make a plan for the execution)
+
+- terrafom apply (to apply the execution)
+
+- terraform destroy (to delete the created infrustructure)
+
+- after running the init, the .terraform file will appear. we can see the provides inside the .terraform directory.
+
+- terraform plan -target=resource_type.resource_name (to create for single terraform file)
+
+- same for the apply
+
+- terraform providers (lists all the providers in the current configuration)
